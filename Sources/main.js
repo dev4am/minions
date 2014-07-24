@@ -63,6 +63,9 @@ cc.BuilderReader.runScene = function (module, name) {
 }
 
 var ccb_resources = [
+    {src: "res/fruit.plist"},
+    {src: "res/fruit.png"},
+
     {type: 'image', src: "res/HelloWorld.png"},
     {type: 'image', src: "res/minions1.png"},
     {type: 'image', src: "res/minions2.png"},
@@ -70,6 +73,7 @@ var ccb_resources = [
     {type: 'image', src: "res/CloseSelected.png"}
 ];
 
+require("CocosEditor.js");
 require("MainLayer.js");
 require("MinionsLayer.js");
 
