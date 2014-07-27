@@ -69,6 +69,7 @@ var ccb_resources = [
     {type: 'image', src: "res/HelloWorld.png"},
     {type: 'image', src: "res/minions1.png"},
     {type: 'image', src: "res/minions2.png"},
+    {type: 'image', src: "res/banana.png"},
     {type: 'image', src: "res/CloseNormal.png"},
     {type: 'image', src: "res/CloseSelected.png"}
 ];

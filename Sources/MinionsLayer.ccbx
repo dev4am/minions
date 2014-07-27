@@ -35,9 +35,9 @@
             anchorPointX="0.5" anchorPointY="0.5" ignoreAnchorPoint="true"
             scaleX="1" scaleY="1"
             touchEnabled="true" positionType="LeftBottom">
-        <Sprite positionType="LeftBottom" positionX="1084.3334" positionY="226.0" anchorPointX="0.5"
-                anchorPointY="0.5" src="res/minions1.png"/>
-        <Sprite positionType="LeftBottom" positionX="224.66666" positionY="295.66666" anchorPointX="0.5"
-                anchorPointY="0.5" src="res/minions2.png"/>
+        <Sprite positionType="LeftBottom" positionX="895.0" positionY="184.0" anchorPointX="0"
+                anchorPointY="1" src="res/minion.plist/1.png" target="Doc" var="minion" name="minion"/>
+        <Sprite positionType="LeftBottom" positionX="173.0" positionY="144.0" anchorPointX="0.5"
+                anchorPointY="0.5" var="enemy" target="Doc" src="res/minion.plist/2.png"/>
     </Layer>
     </Document>
