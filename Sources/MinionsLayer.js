@@ -47,6 +47,7 @@ MinionsLayer.prototype.onDidLoadFromCCB = function () {
 
 MinionsLayer.prototype.onEnter = function () {
     cc.log("onEnter");
+    cc.AudioEngine.getInstance().playEffect("res/sounds/background.mp3", true);
 }
 
 MinionsLayer.prototype.onUpdate = function () {
@@ -144,6 +145,8 @@ MinionsLayer.prototype.enemyHit = function (){
     var action1 = cc.Repeat.create(actionFrame, 1);
     var finish = cc.CallFunc.create(this.throwShit, this);
     this.enemy.runAction(cc.Sequence.create(action1, finish));
+    var num = getRandom(3)+1;
+    cc.AudioEngine.getInstance().playEffect("res/sounds/minion_laugh"+num+".mp3", false);
 }
 
 MinionsLayer.prototype.throwShit = function (){
