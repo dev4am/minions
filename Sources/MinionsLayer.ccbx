@@ -39,5 +39,13 @@
                 anchorPointY="1" src="res/minion.plist/1.png" target="Doc" var="minion" name="minion"/>
         <Sprite positionType="LeftBottom" positionX="173.0" positionY="144.0" anchorPointX="0.5"
                 anchorPointY="0.5" var="enemy" target="Doc" src="res/minion.plist/2.png"/>
+        <Sprite positionType="LeftBottom" positionX="948.0" positionY="206.0" anchorPointX="0.5" anchorPointY="0.5"
+                src="res/powerProgress.png" target="Doc" name="powerProgress" var="powerProgress" visible="false"/>
+        <Sprite positionType="LeftBottom" positionX="688.0" positionY="595.0" anchorPointX="0.5"
+                anchorPointY="0.5" src="res/windPowerProgressRight.png" var="windPowerProgressRight" target="Doc"
+                name="windPowerProgressRight" visible="false"/>
+        <Sprite positionType="LeftBottom" positionX="603.0" positionY="596.0" anchorPointX="0.5"
+                anchorPointY="0.5" var="windPowerProgressLeft" target="Doc" name="windPowerProgressLeft"
+                src="res/windPowerProgressLeft.png" visible="false"/>
     </Layer>
     </Document>

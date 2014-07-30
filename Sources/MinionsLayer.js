@@ -2,12 +2,22 @@
 
 var MinionsLayer = function () {
     cc.log("MinionsLayer")
+
     this.throwPower = 0;
     this.minion = null;
     this.banana = null;
     this.enemy = null;
     this.isEnemyHit = false;
     this.shit = null;
+
+    this.windPower = 0;
+    this.windPowerProgressLeft = null;
+    this.windPowerProgressRight = null;
+    this.windPowerProgressTimerLeft = null;
+    this.windPowerProgressTimerRight = null;
+
+    this.powerProgress = null;
+    this.powerProgressTimer = null;
 };
 
 MinionsLayer.prototype.onDidLoadFromCCB = function () {
@@ -48,6 +58,22 @@ MinionsLayer.prototype.onDidLoadFromCCB = function () {
 MinionsLayer.prototype.onEnter = function () {
     cc.log("onEnter");
     cc.AudioEngine.getInstance().playEffect("res/sounds/background.mp3", true);
+
+    this.windPowerProgressTimerRight = cc.ProgressTimer.create(this.windPowerProgressRight);
+    this.windPowerProgressTimerRight.setType(cc.PROGRESS_TIMER_TYPE_BAR);
+    this.windPowerProgressTimerRight.setMidpoint(cc.p(0, 0.5));
+    this.windPowerProgressTimerRight.setBarChangeRate(cc.p(1, 0));
+    this.windPowerProgressTimerRight.setPercentage(0);
+    this.windPowerProgressTimerRight.setPosition(this.windPowerProgressRight.getPositionX(), this.windPowerProgressRight.getPositionY());
+    this.rootNode.addChild(this.windPowerProgressTimerRight);
+
+    this.windPowerProgressTimerLeft = cc.ProgressTimer.create(this.windPowerProgressLeft);
+    this.windPowerProgressTimerLeft.setType(cc.PROGRESS_TIMER_TYPE_BAR);
+    this.windPowerProgressTimerLeft.setMidpoint(cc.p(1, 0.5));
+    this.windPowerProgressTimerLeft.setBarChangeRate(cc.p(1, 0));
+    this.windPowerProgressTimerLeft.setPercentage(0);
+    this.windPowerProgressTimerLeft.setPosition(this.windPowerProgressLeft.getPositionX(), this.windPowerProgressLeft.getPositionY());
+    this.rootNode.addChild(this.windPowerProgressTimerLeft);
 }
 
 MinionsLayer.prototype.onUpdate = function () {
@@ -56,16 +82,32 @@ MinionsLayer.prototype.onUpdate = function () {
 
 MinionsLayer.prototype.onTouchesBegan = function (touches, event){
     this.rootNode.schedule(this.increasePower, 0.1);
+    this.powerProgressTimer = cc.ProgressTimer.create(this.powerProgress);
+    this.powerProgressTimer.setType(cc.PROGRESS_TIMER_TYPE_BAR);
+    this.powerProgressTimer.setMidpoint(cc.p(0, 0.1));
+    this.powerProgressTimer.setBarChangeRate(cc.p(1, 0));
+    this.powerProgressTimer.setPercentage(0);
+    this.powerProgressTimer.setPosition(this.powerProgress.getPositionX(), this.powerProgress.getPositionY());
+    this.rootNode.addChild(this.powerProgressTimer);
 }
 
 MinionsLayer.prototype.onTouchesEnded = function (touches, event){
     this.rootNode.unschedule(this.increasePower);
     this.throwBanana();
+    this.rootNode.removeChild(this.powerProgressTimer);
+    this.powerProgressTimer.cleanuped = true;
 }
 
 MinionsLayer.prototype.increasePower = function (){
-    this.controller.throwPower += 100;
-    cc.log("power="+this.controller.throwPower);
+    if(this.controller.throwPower<1000){
+        this.controller.throwPower += 100;
+        cc.log("power="+this.controller.throwPower);
+    }
+    this.controller.increasePowerProgressTimer();
+}
+
+MinionsLayer.prototype.increasePowerProgressTimer = function (){
+    this.powerProgressTimer.setPercentage(this.throwPower/10);
 }
 
 MinionsLayer.prototype.throwBanana = function (){
@@ -95,7 +137,7 @@ MinionsLayer.prototype.bananaFly = function () {
     var controlPoints = [
         cc.p(startX, startY),
         cc.p(endX + (startX-endX)/2, topY),
-        cc.p(endX, endY)
+        cc.p(endX + this.windPower, endY)
     ];
 
     var fruitTime = 1.5;
@@ -176,7 +218,7 @@ MinionsLayer.prototype.shitFly = function () {
     var controlPoints = [
         cc.p(startX, startY),
         cc.p(endX + (startX-endX)/2, topY),
-        cc.p(endX, endY)
+        cc.p(endX + this.windPower, endY)
     ];
 
     var fruitTime = 1.5;
@@ -195,6 +237,17 @@ MinionsLayer.prototype.shitFly = function () {
 MinionsLayer.prototype.shitFinish = function () {
     this.rootNode.unschedule(this.checkMinionCollide);
     this.rootNode.removeChild(this.shit);
+
+    var randomNum = getRandom(600);
+    var negative = Math.random()>0.5?1:-1;
+    this.windPower = randomNum*negative;
+    if(negative==1){
+        this.windPowerProgressTimerLeft.setPercentage(0);
+        this.windPowerProgressTimerRight.setPercentage(randomNum/6);
+    }else{
+        this.windPowerProgressTimerRight.setPercentage(0);
+        this.windPowerProgressTimerLeft.setPercentage(randomNum/6);
+    }
 }
 
 MinionsLayer.prototype.checkMinionCollide = function () {
